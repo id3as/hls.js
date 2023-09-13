@@ -52,6 +52,46 @@ module.exports = {
     description: 'Big Buck Bunny - adaptive qualities',
     abr: true,
   },
+  norskEZDRM: createTestStreamWithConfig(
+    {
+      url: 'http://127.0.0.1:8080/cmaf/file/multi-variant.m3u8',
+      description:
+        'Local LL-HLS stream from Norsk, protected with EZDRM DRM (Widevine)',
+      abr: true,
+    },
+    {
+      drmSystems: {
+        'com.widevine.alpha': {
+          licenseUrl:
+            'https://widevine-dash.ezdrm.com/widevine-php/widevine-foreignkey.php?pX=7193F0',
+        },
+      },
+      emeEnabled: true,
+    },
+  ),
+  norskAxinom: createTestStreamWithConfig(
+    {
+      url: 'http://127.0.0.1:8080/cmaf/file/multi-variant.m3u8',
+      description:
+        'Local LL-HLS stream from Norsk, protected with Axinom DRM (Widevine)',
+      abr: true,
+    },
+    {
+      drmSystems: {
+        'com.widevine.alpha': {
+          licenseUrl:
+            'https://drm-widevine-licensing.axprod.net/AcquireLicense',
+        },
+      },
+      emeEnabled: true,
+      licenseXhrSetup: function (xhr, url) {
+        xhr.setRequestHeader(
+          'X-AxDRM-Message',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJiZWdpbl9kYXRlIjoiMjAwMC0wMS0wMVQwOTo1MzoyMiswMzowMCIsImV4cGlyYXRpb25fZGF0ZSI6IjIwMjUtMTItMzFUMjM6NTk6NDArMDM6MDAiLCJjb21fa2V5X2lkIjoiNTFjOTVkMWQtMmUzMC00ZjhlLTk4YTYtYjAxMjAxNjBhMmRkIiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsInZlcnNpb24iOjIsImxpY2Vuc2UiOnsiZHVyYXRpb24iOjM2MDB9LCJjb250ZW50X2tleXNfc291cmNlIjp7ImlubGluZSI6W3siaWQiOiIyMTZhMTI4MS1jOTVhLTQ4OGYtOWI1Yy0wZDRmNjA2NmUwNGQifSx7ImlkIjoiOTU3ZjI5MTctZTlhZC00MWZkLWI2ZDYtMGUzMDQxNzAzNDJiIn1dfX19.UH1s-jqSIEjYyamOxkd57y4oSsawL3hwCmFuNRhdOqs',
+        );
+      },
+    },
+  ),
   fdr: {
     url: 'https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8',
     description: 'FDR - CDN packaged, 4s segments, 180p - 1080p',
